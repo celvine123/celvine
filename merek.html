@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daftar HP - Merek & OS</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      padding: 20px; 
+      background: #f5f7fa; 
+      color: #333;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { text-align: center; color: #2c3e50; }
+    
+    .product {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: transform 0.2s;
+    }
+    .product:hover { transform: translateY(-5px); }
+    
+    .product img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #eee;
+    }
+    
+    .info h2 { 
+      margin: 0 0 8px 0; 
+      font-size: 1.6em; 
+      color: #2c3e50;
+    }
+    .brand {
+      font-weight: bold;
+      color: #1976d2;
+      font-size: 1.2em;
+      margin: 5px 0;
+    }
+    .os {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      display: inline-block;
+      margin: 8px 0;
+    }
+    .price-section {
+      margin-top: 10px;
+    }
+    .price-old {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 1em;
+    }
+    .discount {
+      color: #e74c3c;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .price-new {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- React + ReactDOM -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+  // DATA HP dengan merek dan OS
+  const phoneData = [
+    {
+      name: "iPhone X",
+      price: 10000000,
+      discount: 50,
+      image: "https://placehold.co/600x800/e74c3c/ffffff?text=iPhone+X&font=roboto",
+      brand: "Apple",
+      os: "iOS 14"
+    },
+    {
+      name: "OPPO Find X5 Pro",
+      price: 14000000,
+      discount: 30,
+      image: "https://placehold.co/600x800/00bfa5/ffffff?text=OPPO+Find+X5&font=roboto",
+      brand: "OPPO",
+      os: "Android 12 (ColorOS 13)"
+    },
+    {
+      name: "Redmi Note 12 Pro",
+      price: 12000000,
+      discount: 42,
+      image: "https://placehold.co/600x800/ff6d00/ffffff?text=Redmi+Note+12&font=roboto",
+      brand: "Xiaomi",
+      os: "Android 13 (MIUI 14)"
+    },
+  ];
+
+  // Komponen Produk
+  function Product({ name, price, discount, image, brand, os }) {
+    const hargaAsli = Number(price);
+    const hargaDiskon = hargaAsli - (hargaAsli * discount / 100);
+
+    return (
+      <div className="product">
+        <img src={image} alt={name} />
+        
+        <div className="info">
+          <h2>{name}</h2>
+          <div className="brand">{brand}</div>
+          <div className="os">{os}</div>
+          
+          <div className="price-section">
+            <span className="price-old">Rp {hargaAsli.toLocaleString('id-ID')}</span>
+            <span className="discount">−{discount}%</span>
+          </div>
+          
+          <div className="price-new">
+            Rp {hargaDiskon.toLocaleString('id-ID')}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // App Utama
+  function App() {
+    return (
+      <div className="container">
+        <h1>Daftar Smartphone Terbaru & Diskon</h1>
+        {phoneData.map((phone, index) => (
+          <Product 
+            key={index}
+            name={phone.name}
+            price={phone.price}
+            discount={phone.discount}
+            image={phone.image}
+            brand={phone.brand}
+            os={phone.os}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // Render ke halaman
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<App />);
+</script>
+
+</body>
+</html>
